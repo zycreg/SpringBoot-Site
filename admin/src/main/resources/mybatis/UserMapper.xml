@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyc.mapper.UserMapper">
+
+
+  <resultMap id="BaseResultMap" type="com.zyc.entity.User">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="findUserInfo" resultType="com.zyc.entity.User">
+   select t.id,t.username,t.pwd,t.realname,t.email,t.phone,t.isvisible,t.lastlogintime
+    from t_admin t;
+  </select>
+
+  <select id="getUserByUsernameAndPassword" parameterType="com.zyc.entity.User" resultType="com.zyc.entity.User">
+    select t.id,t.username,t.realname,t.email,t.phone,t.isvisible,t.lastlogintime
+      from t_admin t
+    where username = #{username} and pwd = MD5(#{pwd})
+  </select>
+
+  <select id="getUserIsVisibleById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from appconsolenew.dbo.T_ADMIN
+    where id = #{id}
+    and ISVISIBLE = 1
+  </select>
+
+  <select id="queryUserList" parameterType="com.zyc.entity.User" resultMap="BaseResultMap">
+    <![CDATA[
+		    select t.id,t.username,t.realname,t.email,t.updatetime from t_admin t where 1=1
+		]]>
+    <if test="username != null">
+      and t.username like '%${username}%' or t.realname like '%${username}%'
+    </if>
+
+  </select>
+
+  <insert id="insertUser" parameterType="com.zyc.entity.User" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into t_admin(username,realname,pwd,phone,email,isvisible)
+    values(#{username}, #{realname}, #{pwd}, #{phone}, #{email},1)
+  </insert>
+
+  <update id="updateUser" parameterType="com.zyc.entity.User">
+    update t_admin
+    set username=#{username}, realname=#{realname}, phone=#{phone}, email=#{email} where id=#{id}
+  </update>
+
+  <select id="findById" parameterType="int" resultType="com.zyc.entity.User">
+    select * from t_admin where id=#{id}
+  </select>
+
+  <delete id="deleteUser" parameterType="String">
+    delete from fulu_user where id in (#{id})
+  </delete>
+
+</mapper>

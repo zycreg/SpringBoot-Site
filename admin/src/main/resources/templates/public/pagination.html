@@ -1,0 +1,27 @@
+共 ${pageInfo.total} 条记录
+<div class="am-fr">
+    <ul class="am-pagination">
+        <#if pageInfo.isFirstPage?string("true","flase") == 'true' >
+            <li class="am-disabled"><a href="${url}?page=1">首页</a></li>
+            <li class="am-disabled"><a href="${url}?page=${pageInfo.firstPage}">上一页</a></li>
+            <#else>
+            <li class="am-pagination-prev"><a href="${url}?page=1">首页</a></li>
+            <li class="am-pagination-prev"><a href="${url}?page=${pageInfo.prePage}">上一页</a></li>
+        </#if>
+        <#list pageInfo.navigatepageNums as nums>
+            <#if pageInfo.pageNum == nums>
+                <li class="am-active"><a href="${url}?page=${nums}">${nums}</a></li>
+                <#else>
+                <li><a href="${url}?page=${nums}">${nums}</a></li>
+            </#if>
+
+        </#list>
+        <#if pageInfo.isLastPage?string("true","flase") == 'true' >
+            <li class="am-disabled"><a href="${url}?page=${pageInfo.lastPage}">下一页</a></li>
+            <li class="am-disabled"><a href="${url}?page=${pageInfo.lastPage}">尾页</a></li>
+            <#else>
+            <li class="am-pagination-last"><a href="${url}?page=${pageInfo.nextPage}">下一页</a></li>
+            <li class="am-pagination-last"><a href="${url}?page=${pageInfo.pages}">尾页</a></li>
+        </#if>
+    </ul>
+</div>
