@@ -45,8 +45,20 @@ public interface IUserService {
 
     /***
      * 删除用户
-     * @param ids
      */
-    public void deleteUser(String ids);
+    public void deleteUser(String id);
+
+
+    /***
+     * 删除多个用户
+     */
+    public void deleteUser(String[] ids);
+
+    /**
+     * 根据用户ID查询用户信息
+     * @param id
+     * @return
+     */
+    public User findById(Integer id);
 
 }

@@ -371,3 +371,14 @@ gallery.html css
   width: 200px;
   margin: 0 auto;
 }
+
+/*
+表单验证验收
+ */
+label.error{
+  color:#ff4949;
+  font-weight: normal;
+}
+input.error{
+  border:1px solid #ff4949 !important;
+}

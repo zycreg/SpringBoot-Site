@@ -53,4 +53,11 @@ public interface UserMapper {
      */
     public void deleteUser(String ids);
 
+    /**
+     * 根据用户ID查询用户信息
+     * @param id
+     * @return
+     */
+    public User findById(Integer id);
+
 }

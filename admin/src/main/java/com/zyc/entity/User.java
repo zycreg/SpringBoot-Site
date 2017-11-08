@@ -7,6 +7,7 @@ public class User {
     private Integer id;
     private String username;
     private String pwd;
+    private String weixin;
     private String realname;
     private String email;
     private String phone;
@@ -24,6 +25,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(String weixin) {
+        this.weixin = weixin;
     }
 
     public void setUsername(String username) {

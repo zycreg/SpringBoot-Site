@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zyc.entity.User;
 import com.zyc.service.IUserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/admin/")
 public class AdminController {
+
+    private static Logger logger = Logger.getLogger(AdminController.class);
 
     @Autowired
     private IUserService userService;
@@ -50,16 +54,16 @@ public class AdminController {
         return "admin/list";
     }
 
-    @RequestMapping("listJSON")
-    @ResponseBody
-    public PageInfo listJSON(User user, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize, Model model) {
-        if (page != null && pageSize != null) {
-            PageHelper.startPage(page, pageSize);
-        }
-        List<User> users = userService.queryUserList(user);
-        PageInfo pageInfo = new PageInfo(users,5);
-        return pageInfo;
-    }
+//    @RequestMapping("listJSON")
+//    @ResponseBody
+//    public PageInfo listJSON(User user, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize, Model model) {
+//        if (page != null && pageSize != null) {
+//            PageHelper.startPage(page, pageSize);
+//        }
+//        List<User> users = userService.queryUserList(user);
+//        PageInfo pageInfo = new PageInfo(users,5);
+//        return pageInfo;
+//    }
 
     /***
      * 跳转到添加页面
@@ -77,6 +81,8 @@ public class AdminController {
      */
     @RequestMapping(value = "insert")
     public String insert(User user) {
+        user.setIsvisible(1);
+        user.setUpdatetime(new Date());
         userService.insertUser(user);
         return "redirect:./list";
     }
@@ -87,7 +93,9 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "modify")
-    public String modify() {
+    public String modify(@RequestParam(value = "id") Integer id,Model model) {
+        User user = userService.findById(id);
+        model.addAttribute("user",user);
         return "admin/modify";
     }
 
@@ -100,6 +108,30 @@ public class AdminController {
     @RequestMapping(value = "update")
     public String update(User user) {
         userService.updateUser(user);
+        return "redirect:./list";
+    }
+
+    /**
+     * 删除一个用户
+     * @return
+     */
+    @RequestMapping(value = "delUser")
+    public String delUser(@RequestParam(value = "id") String id) {
+        logger.debug("ids======"+id);
+        userService.deleteUser(id);
+        return "redirect:./list";
+    }
+
+
+    /**
+     * 删除一个用户
+     * @return
+     */
+    @RequestMapping(value = "delMoreUser")
+    public String delMoreUser(HttpServletRequest request) {
+        String[] ids = request.getParameterValues("items");
+        logger.debug("ids======"+ids);
+        userService.deleteUser(ids);
         return "redirect:./list";
     }
 

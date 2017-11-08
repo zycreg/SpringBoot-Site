@@ -38,21 +38,31 @@
 
   <insert id="insertUser" parameterType="com.zyc.entity.User" useGeneratedKeys="true"
           keyProperty="id">
-    insert into t_admin(username,realname,pwd,phone,email,isvisible)
-    values(#{username}, #{realname}, #{pwd}, #{phone}, #{email},1)
+
+    insert into t_admin(username,realname,pwd,phone,email,isvisible,updatetime)
+    values(#{username}, #{realname}, MD5(#{pwd}), #{phone}, #{email},1,#{updatetime})
   </insert>
 
   <update id="updateUser" parameterType="com.zyc.entity.User">
     update t_admin
-    set username=#{username}, realname=#{realname}, phone=#{phone}, email=#{email} where id=#{id}
+    <choose>
+      <when test="pwd!=null">
+        set username=#{username}, realname=#{realname}, phone=#{phone}, weixin=#{weixin}, email=#{email},pwd=MD5(#{pwd})
+      </when>
+      <otherwise>
+        set username=#{username}, realname=#{realname}, phone=#{phone}, weixin=#{weixin}  email=#{email}
+      </otherwise>
+    </choose>
+     where id=#{id}
   </update>
 
   <select id="findById" parameterType="int" resultType="com.zyc.entity.User">
-    select * from t_admin where id=#{id}
+    select t.id,t.username,t.pwd,t.realname,t.email,t.phone,t.isvisible,t.lastlogintime,t.weixin
+      from t_admin t where id=#{id}
   </select>
 
-  <delete id="deleteUser" parameterType="String">
-    delete from fulu_user where id in (#{id})
+  <delete id="deleteUser" parameterType="string">
+    delete from t_admin where id = #{id}
   </delete>
 
 </mapper>

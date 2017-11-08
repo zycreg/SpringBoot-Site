@@ -55,4 +55,16 @@ public class UserServiceImpl implements IUserService {
     public void deleteUser(String ids) {
         userMapper.deleteUser(ids);
     }
+
+    @Override
+    public void deleteUser(String[] ids) {
+        for(String id : ids){
+            userMapper.deleteUser(id);
+        }
+    }
+
+    @Override
+    public User findById(Integer id) {
+        return userMapper.findById(id);
+    }
 }

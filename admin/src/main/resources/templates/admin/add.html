@@ -1,0 +1,187 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>后台管理系统</title>
+  <meta name="description" content="这是一个 user 页面">
+  <meta name="keywords" content="user">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/css/admin.css">
+
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar am-topbar-inverse admin-header">
+  <#include "/public/header.html" />
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <#include "/public/left.html" />
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">用户管理</strong> / <small>添加用户</small></div>
+      </div>
+      <hr/>
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-8">
+          <form class="am-form am-form-horizontal" id="adminForm">
+
+            <div class="am-form-group">
+              <label for="username" class="am-u-sm-3 am-form-label">用户名</label>
+              <div class="am-u-sm-9">
+                <input type="text" id="username" name="username" placeholder="请输入用户名" required />
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="pwd" class="am-u-sm-3 am-form-label">密码</label>
+              <div class="am-u-sm-9">
+                <input type="password" id="pwd" name="pwd" value="123456" disabled="disabled" required />
+                <small>密码默认值为123456，首次登陆后,可在管理员->设置中修改</small>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="realname" class="am-u-sm-3 am-form-label">真实姓名</label>
+              <div class="am-u-sm-9">
+                <input type="text" id="realname" name="realname" placeholder="请输入真实姓名" required />
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="email" class="am-u-sm-3 am-form-label">电子邮件</label>
+              <div class="am-u-sm-9">
+                <input type="email" id="email" name="email" placeholder="输入你的电子邮件" data-validation-message="自定义提示信息：输入地球上的电子邮箱撒" />
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="phone" class="am-u-sm-3 am-form-label">电话</label>
+              <div class="am-u-sm-9">
+                <input type="tel" id="phone" name="phone" placeholder="输入你的电话号码"/>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="weixin" class="am-u-sm-3 am-form-label">微信号</label>
+              <div class="am-u-sm-9">
+                <input type="text" id="weixin" name="weixin" placeholder="输入你的微信号"/>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <div class="am-u-sm-9 am-u-sm-push-3">
+                <button type="button" class="am-btn am-btn-primary" id="insert">保存修改</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <#include "/public/footer.html"/>
+    </footer>
+
+  </div>
+  <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+  <#include "/public/footer.html" />
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<!--<![endif]-->
+<script src="/js/amazeui.min.js"></script>
+
+<script src="/js/app.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // validate signup form on keyup and submit
+        $("#adminForm").validate({
+            rules: {
+                username: {
+                    required: true
+                },
+                realname: {
+                    required: true
+                },
+                pwd: {
+                    required: true,
+                    minlength: 6
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                phone: {
+                    required: true,
+                    minlength: 11
+                },
+                weixin: {
+                    required: true
+                }
+            },
+            messages: {
+                username: "请输入用户名",
+                pwd: {
+                    minlength: "密码长度为6位"
+                },
+                realname: "请输入真实姓名",
+                email: {
+                    required: "请输入邮箱",
+                    email: "邮箱格式不正确"
+                },
+                phone: {
+                    required: "请输入手机号",
+                    minlength: "手机号不能超过11位"
+                },
+                weixin: {
+                    required: "请输入微信号"
+                }
+            }
+        });
+
+
+        $("#insert").click(function(){
+            $("#adminForm").attr("action","/admin/insert");
+            $("#adminForm").submit();
+        })
+
+    });
+</script>
+
+</body>
+</html>
